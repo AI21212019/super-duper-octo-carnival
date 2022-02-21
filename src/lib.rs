@@ -1,6 +1,10 @@
 #![recursion_limit = "512"]
 
 mod components;
+mod services;
+
+use std::cell::RefCell;
+use std::rc::Rc;
 
 use wasm_bindgen::prelude::*;
 use yew::functional::*;
@@ -10,15 +14,6 @@ use yew_router::prelude::*;
 use components::chat::Chat;
 use components::login::Login;
 
-use std::cell::RefCell;
-use std::rc::Rc;
-
-pub type User = Rc<UserInner>;
-
-#[derive(Debug, PartialEq)]
-pub struct UserInner {
-    pub username: RefCell<String>,
-}
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
 // allocator.
 //
@@ -36,6 +31,13 @@ pub enum Route {
     #[not_found]
     #[at("/404")]
     NotFound,
+}
+
+pub type User = Rc<UserInner>;
+
+#[derive(Debug, PartialEq)]
+pub struct UserInner {
+    pub username: RefCell<String>,
 }
 
 #[function_component(Main)]
